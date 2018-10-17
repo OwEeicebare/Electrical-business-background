@@ -9,6 +9,8 @@ let morgan = require("morgan");//处理日志的模块
 //引入conturller模块
 let app = express();
 
+let config = require("./config");
+
 //使用自定义的加强reponse的中间件
 app.use(require("./middleware/response_md"));
 
@@ -28,6 +30,8 @@ app.use((err, request, response, next) => {
     // })
 })
 
-app.listen(8000)
+console.log(config)
+
+app.listen(config.PORT)
 
 

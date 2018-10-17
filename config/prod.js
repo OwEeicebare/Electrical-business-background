@@ -1,4 +1,6 @@
+//生产环境
+
 module.exports = {
-    PORT: 8000,
+    PORT: 80,
     DB: "todos"
 }
