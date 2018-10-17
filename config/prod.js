@@ -2,5 +2,8 @@
 
 module.exports = {
     PORT: 80,
-    DB: "todos"
+    DB: "malls",
+    TOKEN_EXPIRE: 1000 * 60 * 60 * 24 * 7,
+    TOKEN_KEY: "malls"
+
 }

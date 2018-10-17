@@ -7,7 +7,7 @@ let encryptUtil = require("../utils/encryptUtil");
  * @returns {Promise<void>}
  */
 async function regist(user) {
-    let result = findByUser(user.username);
+    let result = await findByUsername(user.username);
 
     if (result) {
         throw Error("用户名已经存在")
@@ -18,7 +18,8 @@ async function regist(user) {
     user.role = 0;
 
 
-    let result = await User.create(user);
+    result = await User.create(user);
+    result.password = ""
     return result;
 }
 
@@ -27,14 +28,14 @@ async function regist(user) {
  * @param username
  * @returns {Promise<void>}
  */
-async function deleteUserByname(username) {
-    await isExistByUsename(username);
+async function deleteUserByUsername(username) {
+    // 根据用户名检查用户是否存在
+    await isExistByUsername(username);
 
-    let result = await User.deleteOne({username: username});
-    if (result.name !== 1) {
-        throw Error("删除失败")
+    result = await User.deleteOne({username: username});
+    if (result.n !== 1) {
+        throw Error("删除失败");
     }
-
 }
 
 /**
@@ -42,7 +43,7 @@ async function deleteUserByname(username) {
  * @param username
  * @returns {Promise<void>}
  */
-async function findByUser(username) {
+async function findByUsername(username) {
     return await User.findOne({username: username})
 }
 
@@ -52,23 +53,33 @@ async function findByUser(username) {
  * @returns {Promise<void>}
  */
 async function login(user) {
-    await isExistByUsename(user.username);//检查用户是否存在
+    await isExistByUsername(user.username);//检查用户是否存在
 
     let password = user.password;//拿到密码
     if (password == null || password.trim().length == 0) {
         throw Error("密码不能为空")
     }
     //加密密码
-    user.password = encryptUtil.md5Hmac(user.password, user.username);
+    user.password = encryptUtil.md5Hmac(password, user.username);
 
-    await  User.findOne(user);
+    user = await  User.findOne(user);
+    user.password = ""
+    return user
 }
 
 //根据用户名检查用户是否存在
-async function isExistByUsename(username) {
-    let result = findByUser(user.username);
+
+async function isExistByUsername(username) {
+    let result = findByUsername(username);
 
     if (!result) {
         throw Error("用户名不存在")
     }
+}
+
+module.exports = {
+    regist,
+    login,
+    deleteUserByUsername,
+    findByUsername
 }
