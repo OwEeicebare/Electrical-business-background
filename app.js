@@ -20,6 +20,7 @@ app.use(express.json());
 //让其可以解析json语句
 
 app.use("/user", require("./router/user"))
+app.use("/category", require("./router/category"))
 
 //处理全局异常的中间件
 app.use((err, request, response, next) => {

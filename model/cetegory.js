@@ -1,0 +1,28 @@
+const mongoose = require("mongoose");
+
+const schema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: [true, "分类名称不能少"],
+        unique: true
+    },
+    created: {
+        type: Date,
+        dafault: Date.now()
+    }
+});
+
+
+module.exports = mongoose.model("category", schema);
+
+// var blogSchema = new Schema({
+//
+//     body:   String,
+//     comments: [{ body: String, date: Date }],
+//     date: { type: Date, default: Date.now },
+//     hidden: Boolean,
+//     meta: {
+//         votes: Number,
+//         favs:  Number
+//     }
+// });

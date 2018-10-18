@@ -44,7 +44,10 @@ async function deleteUserByUsername(username) {
  * @returns {Promise<void>}
  */
 async function findByUsername(username) {
-    return await User.findOne({username: username})
+
+    // return await User.findOne({username: username})
+    await User.findOne({username: username});
+
 }
 
 /**
