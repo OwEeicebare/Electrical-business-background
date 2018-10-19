@@ -12,7 +12,9 @@ let app = express();
 let config = require("./config");
 
 //使用自定义的加强reponse的中间件
+app.use(require("./middleware/permission_md"));
 app.use(require("./middleware/response_md"));
+app.use(require("./middleware/token_md"));//校验用户的登陆状态
 
 app.use(morgan("combined"))//设置日志
 
